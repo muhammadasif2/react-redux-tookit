@@ -2,30 +2,28 @@ import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { addTodo, updateTodo } from "../../redux/feature/todoSlice";
-import { useLocation, useNavigate } from "react-router-dom";
-const AddTodo = () => {
-  const { state } = useLocation();
-  const navigate = useNavigate();
+const AddTodo = (props) => {
+  const { setUpdatedData, updatedData } = props;
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (state) {
+    if (updatedData) {
       form.setFieldsValue({
-        text: state.text,
+        text: updatedData.text,
       });
     }
-  }, [state]);
-  console.log("item", state);
+  }, [updatedData]);
   const onFinish = (values) => {
-    if (!state) {
+    if (!updatedData) {
       dispatch(addTodo(values.text));
       form.resetFields();
-      navigate("/");
+      setUpdatedData();
     }
-    if (state) {
-      dispatch(updateTodo({ id: state.id, text: values.text }));
+    if (updatedData) {
+      alert("update");
+      dispatch(updateTodo({ id: updatedData.id, text: values.text }));
       form.resetFields();
-      navigate("/");
+      setUpdatedData();
     }
   };
   const onFinishFailed = (errorInfo) => {

@@ -1,17 +1,17 @@
 import { Button, Table, ConfigProvider } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTodo } from "../../redux/feature/todoSlice";
 import { useNavigate } from "react-router-dom";
 import AddTodo from "../addTodo/AddTodo";
 
 const Todo = () => {
+  const [updatedData, setUpdatedData] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const todoList = useSelector((state) => state.todos);
   const updateHandler = (item) => {
-    console.log("item", item);
-    navigate("/add-todo", { state: item });
+    setUpdatedData(item);
   };
   const dataSource = [];
   todoList.map((item) => {
@@ -38,7 +38,7 @@ const Todo = () => {
       key: "text",
       name: "Title",
       render: (item) => (
-        <Button onClick={() => updateHandler(item)}>Update({item.id})</Button>
+        <Button onClick={() => updateHandler(item)}>Update</Button>
       ),
     },
     {
@@ -47,7 +47,7 @@ const Todo = () => {
       name: "Title",
       render: (item) => (
         <Button onClick={() => dispatch(removeTodo(item.id))} color="primary">
-          Delete({item.id})
+          Delete
         </Button>
       ),
     },
@@ -55,7 +55,7 @@ const Todo = () => {
 
   return (
     <div>
-      <AddTodo />
+      <AddTodo updatedData={updatedData} setUpdatedData={setUpdatedData} />
       <Table dataSource={dataSource} columns={columns} />;
     </div>
   );
