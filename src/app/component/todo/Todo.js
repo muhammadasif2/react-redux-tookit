@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTodo } from "../../redux/feature/todoSlice";
 import { useNavigate } from "react-router-dom";
+import AddTodo from "../addTodo/AddTodo";
 
 const Todo = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Todo = () => {
 
   return (
     <div>
+      <AddTodo />
       <Table dataSource={dataSource} columns={columns} />;
     </div>
   );
